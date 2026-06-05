@@ -1,6 +1,5 @@
 import streamlit as st
 
-# Configuração da página (Só pode aparecer uma vez no código e deve ser a primeira coisa)
 st.set_page_config(
     page_title="Migração Internacional na Bahia",
     page_icon="🌎",
@@ -31,21 +30,14 @@ st.markdown("---")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    # SE O NOME NO GITHUB ESTIVER DIFERENTE, AJUSTE AQUI:
     st.image("Objetivo_Desenvolvimento_Sustentável_16_PT.jpg", width=250)
 
 with col2:
-    # SE O NOME NO GITHUB ESTIVER DIFERENTE, AJUSTE AQUI:
     st.image("Design sem nome(6).png", width=350)
 
 
 with col3:
-    # SE O NOME NO GITHUB ESTIVER DIFERENTE, AJUSTE AQUI:
     st.image("SDG-icon-PT-RGB-10-1.jpg", width=250)
-
-# =========================
-# CRIADORES + LOGOS
-# =========================
 
 st.markdown("""
 ### Criadores
@@ -54,8 +46,6 @@ st.markdown("""
 - Denise Nunes Viola  
 """)
 
-
-# Criando 3 colunas para os logos
 col1, col2= st.columns(2)
 
 with col1:
