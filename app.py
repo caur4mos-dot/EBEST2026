@@ -42,7 +42,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     # Mostra a primeira imagem (ajuste o nome se necessário)
-    st.image("Design sem nome(5).png", width=150)
+    st.image("Design sem nome(6).png", width=150)
 
 with col2:
     # Mostra a imagem da ODS 16
