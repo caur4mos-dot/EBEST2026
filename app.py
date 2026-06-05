@@ -54,7 +54,6 @@ st.markdown("""
 - Denise Nunes Viola  
 """)
 
-st.markdown("---")
 
 # Criando 3 colunas para os logos
 col1, col2= st.columns(2)
