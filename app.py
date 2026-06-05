@@ -42,3 +42,14 @@ with col2:
 with col3:
     # SE O NOME NO GITHUB ESTIVER DIFERENTE, AJUSTE AQUI:
     st.image("SDG-icon-PT-RGB-10-1.jpg", width=250)
+
+st.markdown("""
+###Criadores
+
+- Cauã Ramos Santos Oliveira
+- Denise Nunes Viola
+""")
+
+# Linha divisória para os logos
+st.markdown("---")
+
