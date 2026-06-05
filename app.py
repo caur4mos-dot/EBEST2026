@@ -9,7 +9,7 @@ st.set_page_config(
 st.title("Análise temporal, espacial e sociodemográfica da migração internacional regularizada na Bahia entre 2021 e 2025 utilizando Inteligência Artificial para predição de 2026")
 
 st.markdown("""
-Este dashboard apresenta análises dos fluxos migratórios internacionais
+Este site apresenta análises dos fluxos migratórios internacionais regularizados
 na Bahia utilizando dados do SISMIGRA.
 
 ### Seções
@@ -26,10 +26,8 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Migração Internacional na Bahia (2021–2025)")
+st.title("")
 
 st.markdown("""
-Este painel apresenta análises estatísticas,
-espaciais e preditivas dos registros migratórios
-na Bahia.
+
 """)
