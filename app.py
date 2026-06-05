@@ -34,3 +34,20 @@ st.title("")
 st.markdown("""
 
 """)
+
+st.markdown("---")
+
+# Criando 3 colunas, uma para cada imagem
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    # Mostra a primeira imagem (ajuste o nome se necessário)
+    st.image("Design sem nome(5).png", width=150)
+
+with col2:
+    # Mostra a imagem da ODS 16
+    st.image("Objetivo_Desenvolvimento_Sustentável_16_PT.jpg", width=150)
+
+with col3:
+    # Mostra a imagem da ODS 10
+    st.image("SDG-icon-PT-RGB-10-1.jpg", width=150)
