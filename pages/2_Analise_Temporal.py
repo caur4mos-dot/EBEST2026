@@ -59,14 +59,3 @@ st.plotly_chart(
     fig,
     use_container_width=True
 )
-
-# ======================
-# TABELA
-# ======================
-
-st.subheader("Dados utilizados")
-
-st.dataframe(
-    crescimento,
-    use_container_width=True
-)
