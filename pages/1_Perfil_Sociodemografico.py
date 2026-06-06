@@ -167,8 +167,7 @@ with aba2:
 with aba3:
 
     st.subheader(
-        "Evolução anual das classificações de situação migratória na Bahia 
-"
+        "Evolução anual das classificações de situação migratória na Bahia "
     )
 
     cores_class = {
