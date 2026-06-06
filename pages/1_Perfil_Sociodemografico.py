@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 # TÍTULO
 # ==================================
 
-st.title("📊 Perfil Sociodemográfico")
+st.title("Perfil Sociodemográfico")
 
 st.write(
     """
@@ -51,7 +51,7 @@ aba1, aba2, aba3 = st.tabs(
 with aba1:
 
     st.subheader(
-        "Evolução anual dos registros migratórios"
+        "Evolução anual da frequência absoluta dos migrantes com registros migratórios na Bahia"
     )
 
     fig = go.Figure()
@@ -103,7 +103,7 @@ with aba1:
 with aba2:
 
     st.subheader(
-        "Evolução anual segundo sexo"
+        "Evolução anual do sexo dos migrantes regularizados na Bahia "
     )
 
     cores = {
@@ -167,7 +167,8 @@ with aba2:
 with aba3:
 
     st.subheader(
-        "Evolução anual segundo classificação do registro"
+        "Evolução anual das classificações de situação migratória na Bahia 
+"
     )
 
     cores_class = {
