@@ -285,6 +285,32 @@ cores_heatmap = [
 ]
 
 # ==================================
+# FUNÇÃO AUXILIAR DE ORDENAÇÃO CUSTOMIZADA
+# ==================================
+def ordenar_categorias(lista_categorias):
+    """
+    Ordena uma lista alfabeticamente, mas garante que itens com 'Outros', 
+    'Outras' ou 'Não especificado' fiquem obrigatoriamente no final da lista.
+    """
+    # Remove duplicados e valores nulos por segurança
+    categorias_unicas = sorted(list(set(lista_categorias)))
+    
+    regulares = []
+    finais = []
+    
+    for cat in categorias_unicas:
+        cat_str = str(cat).strip()
+        cat_lower = cat_str.lower()
+        
+        if "outros" in cat_lower or "outras" in cat_lower or "não especificado" in cat_lower:
+            finais.append(cat_str)
+        else:
+            regulares.append(cat_str)
+            
+    # Retorna os itens alfabéticos seguidos pelos itens de exceção
+    return regulares + finais
+
+# ==================================
 # CONTINENTE
 # ==================================
 
@@ -302,6 +328,10 @@ with aba_h1:
         values="percentual"
     )
 
+    # Aplicando a ordenação customizada nas linhas
+    ordem_continente = ordenar_categorias(tabela.index)
+    tabela = tabela.reindex(ordem_continente)
+
     fig = go.Figure(
         data=go.Heatmap(
             z=tabela.values,
@@ -316,7 +346,17 @@ with aba_h1:
 
     fig.update_layout(
         height=500,
-        template="simple_white"
+        template="simple_white",
+        # Configura o Ano no topo e adiciona o título do eixo X
+        xaxis=dict(
+            title="Ano",
+            side="top"
+        ),
+        # Adiciona o título do eixo Y e reverte para a ordem alfabética começar de cima para baixo
+        yaxis=dict(
+            title="Continente de Origem",
+            autorange="reversed"
+        )
     )
 
     st.plotly_chart(
@@ -343,6 +383,10 @@ with aba_h2:
         values="percentual"
     )
 
+    # Aplicando a ordenação customizada nas linhas
+    ordem_amparo = ordenar_categorias(tabela.index)
+    tabela = tabela.reindex(ordem_amparo)
+
     fig = go.Figure(
         data=go.Heatmap(
             z=tabela.values,
@@ -357,7 +401,17 @@ with aba_h2:
 
     fig.update_layout(
         height=650,
-        template="simple_white"
+        template="simple_white",
+        # Configura o Ano no topo e adiciona o título do eixo X
+        xaxis=dict(
+            title="Ano",
+            side="top"
+        ),
+        # Adiciona o título do eixo Y e reverte para a ordem alfabética começar de cima para baixo
+        yaxis=dict(
+            title="Tipologia de Amparo Legal",
+            autorange="reversed"
+        )
     )
 
     st.plotly_chart(
@@ -384,6 +438,10 @@ with aba_h3:
         values="percentual"
     )
 
+    # Aplicando a ordenação customizada nas linhas
+    ordem_profissao = ordenar_categorias(tabela.index)
+    tabela = tabela.reindex(ordem_profissao)
+
     fig = go.Figure(
         data=go.Heatmap(
             z=tabela.values,
@@ -398,7 +456,17 @@ with aba_h3:
 
     fig.update_layout(
         height=650,
-        template="simple_white"
+        template="simple_white",
+        # Configura o Ano no topo e adiciona o título do eixo X
+        xaxis=dict(
+            title="Ano",
+            side="top"
+        ),
+        # Adiciona o título do eixo Y e reverte para a ordem alfabética começar de cima para baixo
+        yaxis=dict(
+            title="Grupo Profissional",
+            autorange="reversed"
+        )
     )
 
     st.plotly_chart(
