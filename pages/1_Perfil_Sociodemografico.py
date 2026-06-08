@@ -11,9 +11,7 @@ st.title("Perfil Sociodemográfico")
 
 st.write(
     """
-    Evolução do perfil dos registros migratórios
-    internacionais regularizados na Bahia
-    entre 2021 e 2025.
+    O objetivo desta aba é trazer uma visualização do Perfil Sociodemográfico junto a visualização temporal dos resultados.
     """
 )
 
