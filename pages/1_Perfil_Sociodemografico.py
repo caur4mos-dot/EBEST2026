@@ -31,34 +31,27 @@ heat_amparo = pd.read_csv("dados/heat_amparo.csv")
 heat_profissao = pd.read_csv("dados/heat_profissao.csv")
 
 # ==================================
-# FILTROS GERAIS (NO TOPO)
+# FILTROS GERAIS (OPÇÃO 2: SEGMENTED CONTROL)
 # ==================================
-# Criando uma área destacada para os filtros usando um container com borda
 with st.container(border=True):
-    st.markdown("##### 🔍 Filtros do Painel")
+    st.markdown("##### 📅 Selecione os Anos de Análise")
     
-    # Lista única de anos disponíveis com base nos seus dados
+    # Lista única de anos disponíveis nos seus dados
     anos_disponiveis = sorted(crescimento["ano"].unique())
     
-    # Criando colunas para os componentes ficarem lado a lado
-    col_filtro1, col_filtro2 = st.columns([2, 1])
+    # Botões segmentados na horizontal (Pílulas/Botões)
+    anos_selecionados = st.segmented_control(
+        label="Anos disponíveis:", # Label discreto
+        label_visibility="collapsed", # Oculta o texto acima para ficar mais limpo
+        options=anos_disponiveis,
+        default=anos_disponiveis,
+        selection_mode="multi" # Permite ativar/desativar múltiplos anos
+    )
     
-    with col_filtro1:
-        # Filtro de seleção múltipla para os anos
-        anos_selecionados = st.multiselect(
-            "Selecione os Anos de Análise:",
-            options=anos_disponiveis,
-            default=anos_disponiveis
-        )
-        
-    with col_filtro2:
-        # Um indicador simples ou espaço para outro filtro futuro (ex: Gênero, Amparo específico, etc.)
-        st.markdown("<br>", unsafe_allow_html=True) # Alinhamento visual
-        if not anos_selecionados:
-            st.warning("⚠️ Selecione ao menos um ano para exibir os dados.")
-            st.stop()
-        else:
-            st.success(f"Exibindo dados de {len(anos_selecionados)} ano(s).")
+    # Validação caso o usuário desmarque tudo
+    if not anos_selecionados:
+        st.warning("⚠️ Ative pelo menos um ano acima para visualizar os gráficos.")
+        st.stop()
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -84,7 +77,6 @@ with aba1:
         "Evolução anual da frequência absoluta dos migrantes com registros migratórios na Bahia"
     )
 
-    # Filtragem dinâmica conforme a seleção do topo
     crescimento_filtrado = crescimento[crescimento["ano"].isin(anos_selecionados)]
 
     fig = go.Figure()
@@ -139,7 +131,6 @@ with aba2:
         "Evolução anual do sexo dos migrantes regularizados na Bahia"
     )
 
-    # Filtragem dinâmica conforme a seleção do topo
     sexo_filtrado = sexo[sexo["ano"].isin(anos_selecionados)]
 
     cores = {
@@ -206,7 +197,6 @@ with aba3:
         "Evolução anual das classificações de situação migratória na Bahia"
     )
 
-    # Filtragem dinâmica conforme a seleção do topo
     classificacao_filtrada = classificacao[classificacao["ano"].isin(anos_selecionados)]
 
     cores_class = {
@@ -304,7 +294,6 @@ with aba_h1:
         "Distribuição percentual por continente de origem"
     )
 
-    # Filtragem dinâmica conforme a seleção do topo
     heat_continente_filtrado = heat_continente[heat_continente["ano"].isin(anos_selecionados)]
 
     tabela = heat_continente_filtrado.pivot(
@@ -346,7 +335,6 @@ with aba_h2:
         "Distribuição percentual por tipologia de amparo"
     )
 
-    # Filtragem dinâmica conforme a seleção do topo
     heat_amparo_filtrado = heat_amparo[heat_amparo["ano"].isin(anos_selecionados)]
 
     tabela = heat_amparo_filtrado.pivot(
@@ -388,7 +376,6 @@ with aba_h3:
         "Distribuição percentual por grupo profissional"
     )
 
-    # Filtragem dinâmica conforme a seleção do topo
     heat_profissao_filtrado = heat_profissao[heat_profissao["ano"].isin(anos_selecionados)]
 
     tabela = heat_profissao_filtrado.pivot(
@@ -417,5 +404,5 @@ with aba_h3:
     st.plotly_chart(
         fig,
         use_container_width=True,
-        config={"displayModeBar": False}
+        config={"config": {"displayModeBar": False}}
     )
