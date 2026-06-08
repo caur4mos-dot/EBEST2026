@@ -13,8 +13,8 @@ st.title("Análise temporal, espacial e sociodemográfica da migração internac
 st.markdown("""
 Este site apresenta análises dos fluxos migratórios internacionais regularizados
 na Bahia utilizando dados do SISMIGRA com o objetivo de compreender os padrões migratórios e apoiar a gestão da Bahia no fortalecimento de políticas públicas de acolhimento,
-regularização documental, inclusão social, emprego, educação e planejamento territorial. Se alinhando a lei de Migração n° 13.445/2017 e ao Objetivo de Desenvolvimento Sustentável
-(ODS) 10.7, que prevê a facilitação de uma migração segura e regular, e o ODS 16, que enfatiza instituições eficazes e acesso à justiça.
+regularização documental, inclusão social, emprego, educação e planejamento territorial. Se alinhando a lei de Migração n° 13.445/2017 e ao Objetivo de Desenvolvimento Sustentável 
+(ODS) 10.7 e 16, que prevê a facilitação de uma migração segura e regular, e que enfatiza instituições eficazes e acesso à justiça, respectivamente.
 
 ### Seções
 
@@ -30,14 +30,14 @@ st.markdown("---")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.image("Objetivo_Desenvolvimento_Sustentável_16_PT.jpg", width=250)
+    st.image("SDG-icon-PT-RGB-10-1.jpg", width=250)
 
 with col2:
     st.image("Design sem nome(6).png", width=350)
 
 
 with col3:
-    st.image("SDG-icon-PT-RGB-10-1.jpg", width=250)
+    st.image("Objetivo_Desenvolvimento_Sustentável_16_PT.jpg", width=250)
 
 st.markdown("""
 ### Criadores
