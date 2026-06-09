@@ -210,15 +210,16 @@ st_folium(
     height=700
 )
 
-# ==================================
-# MAPA INTERATIVO DA MÉDIA 2021-2025
-# ==================================
-
 import streamlit as st
-import geopandas as gpd
 import pandas as pd
+import geopandas as gpd
 import folium
+import branca.colormap as cm
 from streamlit_folium import st_folium
+
+# =========================
+# TÍTULO
+# =========================
 
 st.divider()
 
@@ -228,94 +229,195 @@ st.subheader(
 
 st.write(
     """
-    O mapa apresenta a taxa média anual de migrantes
-    internacionais regularizados por 100 mil habitantes
-    nas microrregiões da Bahia entre 2021 e 2025.
+    O mapa apresenta a taxa média anual de migrantes internacionais
+    regularizados por 100 mil habitantes nas microrregiões da Bahia
+    entre 2021 e 2025.
 
-    A média reduz oscilações específicas de cada ano
-    e permite identificar os territórios que mantiveram
-    maior intensidade migratória ao longo do período.
+    A média reduz oscilações específicas de cada ano e permite
+    identificar os territórios que mantiveram maior intensidade
+    migratória ao longo do período.
     """
 )
 
-# ==================================
-# LEITURA DOS GEOJSON
-# ==================================
+# =========================
+# LER MAPAS
+# =========================
 
-g2021 = gpd.read_file("dados/mapa_2021.geojson")
-g2022 = gpd.read_file("dados/mapa_2022.geojson")
-g2023 = gpd.read_file("dados/mapa_2023.geojson")
-g2024 = gpd.read_file("dados/mapa_2024.geojson")
-g2025 = gpd.read_file("dados/mapa_2025.geojson")
+mapa_2021 = gpd.read_file(
+    "dados/mapa_2021.geojson"
+)
 
-# ==================================
-# JUNTAR TODOS OS ANOS
-# ==================================
+mapa_2022 = gpd.read_file(
+    "dados/mapa_2022.geojson"
+)
+
+mapa_2023 = gpd.read_file(
+    "dados/mapa_2023.geojson"
+)
+
+mapa_2024 = gpd.read_file(
+    "dados/mapa_2024.geojson"
+)
+
+mapa_2025 = gpd.read_file(
+    "dados/mapa_2025.geojson"
+)
+
+# =========================
+# JUNTAR TODOS
+# =========================
 
 todos = pd.concat(
-    [g2021, g2022, g2023, g2024, g2025],
+    [
+        mapa_2021,
+        mapa_2022,
+        mapa_2023,
+        mapa_2024,
+        mapa_2025
+    ],
     ignore_index=True
 )
 
-# ==================================
-# CALCULAR MÉDIAS
-# ==================================
+# =========================
+# MÉDIA POR MICRORREGIÃO
+# =========================
 
-medias = (
+media = (
     todos
     .groupby("name_micro")
     .agg(
-        media_migrantes=("total_migrantes", "mean"),
-        media_populacao=("populacao", "mean"),
-        media_taxa=("taxa_100k", "mean")
+        media_migrantes=(
+            "total_migrantes",
+            "mean"
+        ),
+        media_pop=(
+            "populacao",
+            "mean"
+        ),
+        media_taxa=(
+            "taxa_100k",
+            "mean"
+        )
     )
     .reset_index()
 )
 
-# ==================================
-# GEOMETRIA ÚNICA
-# ==================================
+# =========================
+# GEOMETRIA
+# =========================
 
-geometria = g2025[
-    ["name_micro", "geometry"]
-].copy()
+geometria = mapa_2025[
+    [
+        "name_micro",
+        "geometry"
+    ]
+]
+
+# =========================
+# UNIR
+# =========================
 
 mapa_media = geometria.merge(
-    medias,
+    media,
     on="name_micro",
     how="left"
 )
 
-# ==================================
+# =========================
+# ZEROS BRANCOS
+# =========================
+
+mapa_media["media_taxa_plot"] = (
+    mapa_media["media_taxa"]
+)
+
+mapa_media.loc[
+    mapa_media["media_taxa_plot"] == 0,
+    "media_taxa_plot"
+] = None
+
+# =========================
+# MESMAS CORES DO R
+# =========================
+
+cores = [
+    "#deebf7",
+    "#9ecae1",
+    "#3182bd",
+    "#6a00a8",
+    "#3f007d"
+]
+
+# =========================
+# LIMITES
+# =========================
+
+taxa_min = (
+    mapa_media["media_taxa_plot"]
+    .dropna()
+    .min()
+)
+
+taxa_max = (
+    mapa_media["media_taxa_plot"]
+    .dropna()
+    .max()
+)
+
+# =========================
+# ESCALA CONTÍNUA
+# =========================
+
+colormap = cm.LinearColormap(
+    colors=cores,
+    vmin=taxa_min,
+    vmax=taxa_max
+)
+
+# =========================
 # MAPA
-# ==================================
+# =========================
+
+centro = [
+    mapa_media.geometry.centroid.y.mean(),
+    mapa_media.geometry.centroid.x.mean()
+]
 
 m = folium.Map(
-    location=[-12.8, -41.5],
+    location=centro,
     zoom_start=6,
     tiles="CartoDB positron"
 )
 
-folium.Choropleth(
-    geo_data=mapa_media,
-    data=mapa_media,
-    columns=["name_micro", "media_taxa"],
-    key_on="feature.properties.name_micro",
-    fill_color="PuBuGn",
-    fill_opacity=0.9,
-    line_opacity=0.8,
-    legend_name="Taxa média por 100 mil habitantes"
-).add_to(m)
+# =========================
+# ESTILO
+# =========================
 
-# ==================================
+def estilo(feature):
+
+    valor = feature["properties"]["media_taxa_plot"]
+
+    if valor is None:
+        cor = "white"
+    else:
+        cor = colormap(valor)
+
+    return {
+        "fillColor": cor,
+        "color": "black",
+        "weight": 1,
+        "fillOpacity": 1
+    }
+
+# =========================
 # TOOLTIP
-# ==================================
+# =========================
 
 tooltip = folium.GeoJsonTooltip(
     fields=[
         "name_micro",
         "media_migrantes",
-        "media_populacao",
+        "media_pop",
         "media_taxa"
     ],
     aliases=[
@@ -328,18 +430,30 @@ tooltip = folium.GeoJsonTooltip(
     sticky=False
 )
 
+# =========================
+# GEOJSON
+# =========================
+
 folium.GeoJson(
     mapa_media,
+    style_function=estilo,
     tooltip=tooltip,
-    style_function=lambda x: {
-        "color": "black",
-        "weight": 1
-    }
+    zoom_on_click=False
 ).add_to(m)
 
-# ==================================
+# =========================
+# LEGENDA
+# =========================
+
+colormap.caption = (
+    "Taxa média por 100 mil habitantes"
+)
+
+colormap.add_to(m)
+
+# =========================
 # EXIBIR
-# ==================================
+# =========================
 
 st_folium(
     m,
