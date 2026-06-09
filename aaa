@@ -1,0 +1,14 @@
+import streamlit as st
+import geopandas as gpd
+
+st.title("Teste do GeoJSON")
+
+mapa = gpd.read_file(
+    "dados/mapa_2025.geojson"
+)
+
+st.write(mapa.head())
+
+st.write(
+    list(mapa.columns)
+)
