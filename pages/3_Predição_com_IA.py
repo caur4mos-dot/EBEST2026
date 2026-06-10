@@ -42,12 +42,12 @@ taxa_max = mapa_2026["taxa_prevista_2026"].max()
 
 colormap = LinearColormap(
     colors=[
-        "grey95",
-        "yellow",
-        "#F5E400",
-        "orange",
-        "red"
-    ],
+    "#F2F2F2",   # equivalente ao grey95
+    "#FFFF00",   # yellow
+    "#F5E400",   # amarelo forte
+    "#FFA500",   # orange
+    "#FF0000"    # red
+],
     vmin=taxa_min,
     vmax=taxa_max
 )
