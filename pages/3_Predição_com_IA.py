@@ -164,11 +164,10 @@ with col1:
         f"{metricas['MAE'][0]:.2f}"
     )
 
-
 with col2:
     st.metric(
-        "Correlação",
-        f"{metricas['CORRELACAO'][0]:.2f}"
+        "Correlação de Spearman",
+        f"{metricas['SPEARMAN'][0]:.2f}"
     )
 
 # =====================================================
