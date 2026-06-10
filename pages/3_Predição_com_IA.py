@@ -18,10 +18,6 @@ st.write(
     Esta seção apresenta a predição da taxa de migrantes
     internacionais regularizados por 100 mil habitantes
     nas microrregiões da Bahia para o ano de 2026.
-
-    As estimativas foram produzidas por um modelo de
-    Random Forest treinado a partir dos padrões observados
-    entre 2021 e 2025.
     """
 )
 
@@ -41,35 +37,6 @@ validacao = pd.read_csv(
     "dados/validacao_2025.csv"
 )
 
-# =====================================================
-# TOP 5 MICRORREGIÕES PREVISTAS
-# =====================================================
-
-st.subheader(
-    "Microrregiões com maiores taxas previstas para 2026"
-)
-
-top5 = (
-    mapa_2026[
-        ["name_micro", "taxa_prevista_2026"]
-    ]
-    .sort_values(
-        "taxa_prevista_2026",
-        ascending=False
-    )
-    .head(5)
-)
-
-top5.columns = [
-    "Microrregião",
-    "Taxa Prevista (2026)"
-]
-
-st.dataframe(
-    top5,
-    use_container_width=True,
-    hide_index=True
-)
 
 # =====================================================
 # MAPA INTERATIVO
@@ -189,7 +156,7 @@ st.write(
 # MÉTRICAS
 # =====================================================
 
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 
 with col1:
     st.metric(
@@ -197,13 +164,8 @@ with col1:
         f"{metricas['MAE'][0]:.2f}"
     )
 
-with col2:
-    st.metric(
-        "Erro Percentual Médio",
-        f"{metricas['MAPE'][0]:.1f}%"
-    )
 
-with col3:
+with col2:
     st.metric(
         "Correlação",
         f"{metricas['CORRELACAO'][0]:.2f}"
